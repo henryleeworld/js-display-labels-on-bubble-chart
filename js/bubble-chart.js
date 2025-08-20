@@ -320,8 +320,10 @@ var config = {
             onComplete: done
         },
         aspectRatio: 1,
-        tooltip: false,
         plugins: {
+            tooltip: {
+                enabled: false
+            },
             datalabels: {
                 anchor: function(context) {
                     var value = context.dataset.data[context.dataIndex];
@@ -340,7 +342,9 @@ var config = {
                 offset: 2,
                 padding: 0
             },
-            legend: false,
+            legend: {
+                display: false
+            }
         },
         elements: {
             point: {
@@ -367,7 +371,9 @@ var config = {
 };
 
 window.onload = function() {
-    Chart.register(ChartDataLabels);
+    Chart.register(
+        ChartDataLabels,
+    );
     var ctx = document.getElementById('chart-area').getContext('2d');
     window.bubbleChart = new Chart(ctx, config);
 };
@@ -389,4 +395,6 @@ function convertHexToRGBA(hexCode, opacity) {
 function done() {
     var url = window.bubbleChart.toBase64Image();
     document.getElementById("chart-url").src = url;
+    document.getElementById('chart-area').style.display = 'none';
+    document.getElementById('chart-url').classList.remove('d-none');
 }
